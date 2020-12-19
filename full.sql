@@ -6,12 +6,22 @@ DROP TABLE IF EXISTS employees CASCADE;
 DROP TABLE IF EXISTS simple_items CASCADE;
 CREATE TABLE simple_items (id bigserial PRIMARY KEY, title VARCHAR(255), price int);
 INSERT INTO simple_items (title, price) VALUES
-('box', 110),
-('box2', 210),
-('box5', 410),
-('box12', 210),
-('box15', 410),
-('sphere', 20);
+('box', 10),
+('sphere', 20),
+('maul', 100),
+('door2', 50),
+('door3', 50),
+('camera', 500);
+
+DROP TABLE IF EXISTS homework_products CASCADE;
+CREATE TABLE homework_products (id bigserial PRIMARY KEY, title VARCHAR(255), price int);
+INSERT INTO homework_products (title, price) VALUES
+('box2', 10),
+('sphere2', 20),
+('maul2', 100),
+('door22', 50),
+('door32', 50),
+('camera2', 500);
 
 
 DROP TABLE IF EXISTS books CASCADE;
