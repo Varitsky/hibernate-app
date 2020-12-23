@@ -1,37 +1,41 @@
 package com.flamexander.hibernate.customers;
 
+import com.flamexander.hibernate.PrepareDataApp;
 import com.flamexander.hibernate.products.AuxSessionFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+
 public class CustomerDao {
 
-    @Autowired
-    public static AuxSessionFactory auxSessionFactory;
+//    public static SessionFactory factory;
+
+    private static AuxSessionFactory factory;
 
 
 //    public static void init() {
 //        PrepareDataApp.forcePrepareData();
 //        factory = new Configuration()
-//                .configure("configs/customers/hibernate.cfg.xml")
+//                .configure("configs/products/hibernate.cfg.xml")
 //                .buildSessionFactory();
 //    }
 
-//    public static void init(){
-//        String config = "configs/customers/hibernate.cfg.xml";
-//        AuxSessionFactory(config);
-//    }
+    public static void init(){
+        String config = "configs/customers/hibernate.cfg.xml";
+        factory = new AuxSessionFactory(config);
+    }
 
     public static void shutdown() {
-        auxSessionFactory.close();
+        factory.close();
     }
 
     public static void createExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
+        try (Session session = factory.get().getCurrentSession()) {
             session.beginTransaction();
             Customer dragon = new Customer("Dragon2");
             System.out.println(dragon);
@@ -42,7 +46,7 @@ public class CustomerDao {
     }
 
     public static void showManyItems() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
+        try (Session session = factory.get().getCurrentSession()) {
             session.beginTransaction();
 
             List<Customer> items = session.createQuery("from Customer").getResultList();
@@ -56,7 +60,7 @@ public class CustomerDao {
     }
 
     public static void updateExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
+        try (Session session = factory.get().getCurrentSession()) {
             session.beginTransaction();
             Customer customer = session.get(Customer.class, 1L);
             customer.setName("Cat");
@@ -66,7 +70,7 @@ public class CustomerDao {
     }
 
     public static void deleteExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
+        try (Session session = factory.get().getCurrentSession()) {
             session.beginTransaction();
             Customer customer = session.get(Customer.class, 1L);
             session.delete(customer);
@@ -75,7 +79,7 @@ public class CustomerDao {
     }
 
     public static void readAndPrintExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
+        try (Session session = factory.get().getCurrentSession()) {
             session.beginTransaction();
             Customer customer = session.get(Customer.class, 1L);
             System.out.println(customer);
@@ -85,13 +89,13 @@ public class CustomerDao {
 
     public static void main(String[] args) {
         try {
-//            init();
+            init();
             createExample();
             showManyItems();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            auxSessionFactory.close();
+            factory.close();
         }
     }
 }

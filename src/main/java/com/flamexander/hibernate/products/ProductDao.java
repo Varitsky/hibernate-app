@@ -14,13 +14,23 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+
 public class ProductDao {
 
-    @Autowired
-    public static AuxSessionFactory auxSessionFactory;
+//      private static SessionFactory factory;
+
+
+      private static AuxSessionFactory factory;
+
+//    public static SessionFactory factory;
+//    static AuxSessionFactory factory;
+
+//    @Autowired
+//    public static AuxSessionFactory auxSessionFactory;
 
 //    private String config = "configs/products/hibernate.cfg.xml";
+
+
 
 
 //    public static void init() {
@@ -30,78 +40,82 @@ public class ProductDao {
 //                .buildSessionFactory();
 //    }
 
-//    public static void init(){
-//        String config = "configs/products/hibernate.cfg.xml";
-//        new AuxSessionFactory(config);
 
-    public static void shutdown() {
-        auxSessionFactory.close();
+
+    public static void init() {
+        String config = "configs/products/hibernate.cfg.xml";
+        factory = new AuxSessionFactory(config);
     }
 
-    public static void createExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
-            session.beginTransaction();
-            Product dragonStatue = new Product("Cat Statue2", 12000);
-            System.out.println(dragonStatue);
-            session.save(dragonStatue);
-            session.getTransaction().commit();
-            System.out.println(dragonStatue);
+        public static void shutdown () {
+            factory.close();
         }
-    }
 
-    public static void showManyItems() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
-            session.beginTransaction();
-
-            List<Product> items = session.createQuery("from SimpleItem").getResultList();
-            System.out.println(items + "\n");
-
-            Product product = session.createQuery("select s from SimpleItem s where s.id = 3", Product.class).getSingleResult();
-            System.out.println(product + "\n");
-
-            List<Product> cheapItems = session.createQuery("select s from SimpleItem s where s.price < 180").getResultList();
-            System.out.println(cheapItems + "\n");
-
-            session.getTransaction().commit();
+        public static void createExample () {
+            try (Session session = factory.get().getCurrentSession()) {
+                session.beginTransaction();
+                Product dragonStatue = new Product("Cat Statue2", 12000);
+                System.out.println(dragonStatue);
+                session.save(dragonStatue);
+                session.getTransaction().commit();
+                System.out.println(dragonStatue);
+            }
         }
-    }
 
-    public static void updateExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
-            session.beginTransaction();
-            Product product = session.get(Product.class, 1L);
-            product.setPrice(10000);
-            product.setPrice(10);
-            session.getTransaction().commit();
-        }
-    }
+        public static void showManyItems () {
+            try (Session session = factory.get().getCurrentSession()) {
+                session.beginTransaction();
 
-    public static void deleteExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
-            session.beginTransaction();
-            Product product = session.get(Product.class, 1L);
-            session.delete(product);
-            session.getTransaction().commit();
-        }
-    }
+                List<Product> items = session.createQuery("from SimpleItem").getResultList();
+                System.out.println(items + "\n");
 
-    public static void readAndPrintExample() {
-        try (Session session = auxSessionFactory.get().getCurrentSession()) {
-            session.beginTransaction();
-            Product product = session.get(Product.class, 1L);
-            System.out.println(product);
-            session.getTransaction().commit();
-        }
-    }
+                Product product = session.createQuery("select s from SimpleItem s where s.id = 3", Product.class).getSingleResult();
+                System.out.println(product + "\n");
 
-    public static void main(String[] args) {
-        try {
-//            init();
-            createExample();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            shutdown();
+                List<Product> cheapItems = session.createQuery("select s from SimpleItem s where s.price < 180").getResultList();
+                System.out.println(cheapItems + "\n");
+
+                session.getTransaction().commit();
+            }
         }
+
+        public static void updateExample () {
+            try (Session session = factory.get().getCurrentSession()) {
+                session.beginTransaction();
+                Product product = session.get(Product.class, 1L);
+                product.setPrice(10000);
+                product.setPrice(10);
+                session.getTransaction().commit();
+            }
+        }
+
+        public static void deleteExample () {
+            try (Session session = factory.get().getCurrentSession()) {
+                session.beginTransaction();
+                Product product = session.get(Product.class, 1L);
+                session.delete(product);
+                session.getTransaction().commit();
+            }
+        }
+
+        public static void readAndPrintExample () {
+            try (Session session = factory.get().getCurrentSession()) {
+                session.beginTransaction();
+                Product product = session.get(Product.class, 1L);
+                System.out.println(product);
+                session.getTransaction().commit();
+            }
+        }
+
+        public static void main (String[]args){
+            try {
+            init();
+                createExample();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                shutdown();
+            }
+        }
+
     }
-}

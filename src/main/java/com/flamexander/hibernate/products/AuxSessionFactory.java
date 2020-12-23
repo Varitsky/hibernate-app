@@ -5,11 +5,9 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
 public class AuxSessionFactory {
 
-    private SessionFactory sessionFactory;
-    private String config = "configs/products/hibernate.cfg.xml";
+    private static SessionFactory sessionFactory;
 
     public AuxSessionFactory(String config){
         sessionFactory = new Configuration()
