@@ -13,8 +13,8 @@
         <property name="show_sql">false</property>
         <property name="current_session_context_class">thread</property>
 
-<!--        <mapping class="com.flamexander.hibernate.crud.SimpleItem"/>-->
         <mapping class="com.flamexander.hibernate.products.Product"/>
+        <mapping class="com.flamexander.hibernate.customers.Customer"/>
         <mapping class="com.flamexander.hibernate.validation.ValidationBean"/>
 
     </session-factory>

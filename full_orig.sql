@@ -7,6 +7,24 @@ INSERT INTO employees_details (email, city) VALUES
 ('rembo@gmail.com', 'Atlanta'),
 ('corben_dallas@gmail.com', 'New York');
 
+DROP TABLE IF EXISTS homework_products CASCADE;
+CREATE TABLE homework_products (id bigserial PRIMARY KEY, title VARCHAR(255), price int);
+INSERT INTO homework_products (title, price) VALUES
+('box2', 10),
+('sphere2', 20),
+('door333333333332', 550),
+('maul2', 100),
+('door22', 50),
+('door32', 50),
+('camera2', 500);
+
+DROP TABLE IF EXISTS customers CASCADE;
+CREATE TABLE customers (id bigserial PRIMARY KEY, name VARCHAR(255));
+INSERT INTO customers (name) VALUES
+('Bob Cat'),
+('Bob Dog'),
+('Bob Fish');
+
 DROP TABLE IF EXISTS employees CASCADE;
 CREATE TABLE employees (id bigserial PRIMARY KEY, name VARCHAR(255), details_id bigint, FOREIGN KEY (details_id) REFERENCES employees_details (id));
 INSERT INTO employees (name, details_id) VALUES

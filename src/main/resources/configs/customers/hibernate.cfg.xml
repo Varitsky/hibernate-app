@@ -10,10 +10,11 @@
         <property name="connection.password">admin</property>
         <property name="connection.pool_size">8</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="com.flamexander.hibernate.linked_objects.BottomlessBox"/>
-        <mapping class="com.flamexander.hibernate.linked_objects.Thing"/>
+        <mapping class="com.flamexander.hibernate.customers.Customer"/>
+        <mapping class="com.flamexander.hibernate.products.Product"/>
+
     </session-factory>
 </hibernate-configuration>
