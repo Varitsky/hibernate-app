@@ -1,7 +1,6 @@
 package com.flamexander.hibernate.one_to_one;
 
 import com.flamexander.hibernate.PrepareDataApp;
-import com.flamexander.hibernate.crud.SimpleItem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

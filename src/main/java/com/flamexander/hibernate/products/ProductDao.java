@@ -5,6 +5,8 @@ import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,24 +14,34 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductApp {
-    private static SessionFactory factory;
+@Component
+public class ProductDao {
 
-    public static void init() {
-        PrepareDataApp.forcePrepareData();
-        factory = new Configuration()
-                .configure("configs/products/hibernate.cfg.xml")
-                .buildSessionFactory();
-    }
+    @Autowired
+    public static AuxSessionFactory auxSessionFactory;
+
+//    private String config = "configs/products/hibernate.cfg.xml";
+
+
+//    public static void init() {
+//        PrepareDataApp.forcePrepareData();
+//        factory = new Configuration()
+//                .configure("configs/products/hibernate.cfg.xml")
+//                .buildSessionFactory();
+//    }
+
+//    public static void init(){
+//        String config = "configs/products/hibernate.cfg.xml";
+//        new AuxSessionFactory(config);
 
     public static void shutdown() {
-        factory.close();
+        auxSessionFactory.close();
     }
 
     public static void createExample() {
-        try (Session session = factory.getCurrentSession()) {
+        try (Session session = auxSessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
-            Product dragonStatue = new Product("Cat Statue", 1000);
+            Product dragonStatue = new Product("Cat Statue2", 12000);
             System.out.println(dragonStatue);
             session.save(dragonStatue);
             session.getTransaction().commit();
@@ -38,7 +50,7 @@ public class ProductApp {
     }
 
     public static void showManyItems() {
-        try (Session session = factory.getCurrentSession()) {
+        try (Session session = auxSessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
 
             List<Product> items = session.createQuery("from SimpleItem").getResultList();
@@ -55,7 +67,7 @@ public class ProductApp {
     }
 
     public static void updateExample() {
-        try (Session session = factory.getCurrentSession()) {
+        try (Session session = auxSessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
             Product product = session.get(Product.class, 1L);
             product.setPrice(10000);
@@ -65,7 +77,7 @@ public class ProductApp {
     }
 
     public static void deleteExample() {
-        try (Session session = factory.getCurrentSession()) {
+        try (Session session = auxSessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
             Product product = session.get(Product.class, 1L);
             session.delete(product);
@@ -74,7 +86,7 @@ public class ProductApp {
     }
 
     public static void readAndPrintExample() {
-        try (Session session = factory.getCurrentSession()) {
+        try (Session session = auxSessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
             Product product = session.get(Product.class, 1L);
             System.out.println(product);
@@ -84,7 +96,7 @@ public class ProductApp {
 
     public static void main(String[] args) {
         try {
-            init();
+//            init();
             createExample();
         } catch (Exception e) {
             e.printStackTrace();

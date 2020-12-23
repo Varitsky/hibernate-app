@@ -1,13 +1,12 @@
 package com.flamexander.hibernate.products;
 
 import org.hibernate.annotations.Immutable;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "homework_products")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

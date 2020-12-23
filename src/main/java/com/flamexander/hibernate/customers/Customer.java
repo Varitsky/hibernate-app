@@ -1,13 +1,14 @@
-package com.flamexander.hibernate.lifecycle;
+package com.flamexander.hibernate.customers;
 
+
+import org.hibernate.annotations.Immutable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "alive_beans")
-public class AliveBean implements Serializable {
-    private static final long serialVersionUID = -2025940487235285735L;
-
+@Table(name = "customers")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,6 +16,7 @@ public class AliveBean implements Serializable {
 
     @Column(name = "name")
     private String name;
+
 
     public Long getId() {
         return id;
@@ -32,15 +34,23 @@ public class AliveBean implements Serializable {
         this.name = name;
     }
 
-    public AliveBean(String name) {
+
+    public Customer() {
+    }
+
+    public Customer(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public AliveBean() {
+    public Customer(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return String.format("AliveBean [id = %d, name = %s]", id, name);
+        return String.format("Customer [id = %d, name = %s]", id, name);
     }
 }
+
+
