@@ -5,6 +5,7 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@Component
 public class AuxSessionFactory {
 
     private static SessionFactory sessionFactory;

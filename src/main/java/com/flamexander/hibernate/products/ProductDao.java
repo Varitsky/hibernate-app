@@ -14,13 +14,13 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-
+@Component
 public class ProductDao {
 
 //      private static SessionFactory factory;
 
-
-      private static AuxSessionFactory factory;
+    @Autowired
+    public AuxSessionFactory factory;
 
 //    public static SessionFactory factory;
 //    static AuxSessionFactory factory;
@@ -42,16 +42,16 @@ public class ProductDao {
 
 
 
-    public static void init() {
-        String config = "configs/products/hibernate.cfg.xml";
-        factory = new AuxSessionFactory(config);
-    }
+//    public static void init() {
+//        String config = "configs/products/hibernate.cfg.xml";
+//        factory = new AuxSessionFactory(config);
+//    }
 
-        public static void shutdown () {
+        public void shutdown () {
             factory.close();
         }
 
-        public static void createExample () {
+        public void createExample () {
             try (Session session = factory.get().getCurrentSession()) {
                 session.beginTransaction();
                 Product dragonStatue = new Product("Cat Statue2", 12000);
@@ -62,7 +62,7 @@ public class ProductDao {
             }
         }
 
-        public static void showManyItems () {
+        public void showManyItems () {
             try (Session session = factory.get().getCurrentSession()) {
                 session.beginTransaction();
 
@@ -79,7 +79,7 @@ public class ProductDao {
             }
         }
 
-        public static void updateExample () {
+        public void updateExample () {
             try (Session session = factory.get().getCurrentSession()) {
                 session.beginTransaction();
                 Product product = session.get(Product.class, 1L);
@@ -89,7 +89,7 @@ public class ProductDao {
             }
         }
 
-        public static void deleteExample () {
+        public void deleteExample () {
             try (Session session = factory.get().getCurrentSession()) {
                 session.beginTransaction();
                 Product product = session.get(Product.class, 1L);
@@ -98,7 +98,7 @@ public class ProductDao {
             }
         }
 
-        public static void readAndPrintExample () {
+        public void readAndPrintExample () {
             try (Session session = factory.get().getCurrentSession()) {
                 session.beginTransaction();
                 Product product = session.get(Product.class, 1L);
@@ -107,15 +107,15 @@ public class ProductDao {
             }
         }
 
-        public static void main (String[]args){
-            try {
-            init();
-                createExample();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                shutdown();
-            }
-        }
+//        public static void main (String[]args){
+//            try {
+////            init();
+//                createExample();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                shutdown();
+//            }
+//        }
 
     }
